@@ -1,10 +1,10 @@
+import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/src/painting/text_style.dart';
 
-//import 'package:flutter_gen/gen_l10n/gallery_localizations.dart';
-
-
-
+import 'main_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,77 +14,76 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  /* Query dbRef = FirebaseDatabase.instance.ref().child('users');
+  DatabaseReference reference = FirebaseDatabase.instance.ref().child('users');*/
+
+
   @override
   Widget build(BuildContext context) {
-    //final localizations = GalleryLocalizations.of(context)!;
-    return CupertinoPageScaffold(
-      backgroundColor: Colors.grey,
-      navigationBar: CupertinoNavigationBar(
-        automaticallyImplyLeading: false,
-        // middle: Text(localizations.demoCupertinoTextFieldTitle),
-      ),
-      child: SafeArea(
-        child: ListView(
-          restorationId: 'text_field_demo_list_view',
-          padding: const EdgeInsets.all(16),
+    return Scaffold(
+
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: CupertinoTextField(
-                textInputAction: TextInputAction.next,
-                restorationId: 'email_address_text_field',
-                //    placeholder: localizations.demoTextFieldEmail,
-                keyboardType: TextInputType.emailAddress,
-                clearButtonMode: OverlayVisibilityMode.editing,
-                autocorrect: false,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: CupertinoTextField(
-                textInputAction: TextInputAction.next,
-                restorationId: 'login_password_text_field',
-                //   placeholder: localizations.rallyLoginPassword,
-                clearButtonMode: OverlayVisibilityMode.editing,
-                obscureText: true,
-                autocorrect: false,
-              ),
-            ),
-            // Disabled text field
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: CupertinoTextField(
-                enabled: false,
-                textInputAction: TextInputAction.next,
-                restorationId: 'login_password_text_field_disabled',
-                //   placeholder: localizations.rallyLoginPassword,
-                clearButtonMode: OverlayVisibilityMode.editing,
-                obscureText: true,
-                autocorrect: false,
-              ),
-            ),
-            CupertinoTextField(
-              textInputAction: TextInputAction.done,
-              restorationId: 'pin_number_text_field',
-              prefix: const Icon(
-                CupertinoIcons.padlock_solid,
-                size: 28,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 12),
-              clearButtonMode: OverlayVisibilityMode.editing,
-              keyboardType: TextInputType.number,
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    width: 0,
-                    color: CupertinoColors.inactiveGray,
+            Center(
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: NetworkImage(
+                      'https://www.pngall.com/wp-content/uploads/5/Profile-Male-PNG.png',
+                    ),
                   ),
-                ),
+                  SizedBox(height: 20),
+                  _buildInfoRow('Ad', 'Hakan'),
+                  _buildInfoRow('Soyad', 'Çaçur'),
+                  _buildInfoRow('Yaş', '35'),
+                  _buildInfoRow('Boy', '195'),
+                  _buildInfoRow('Kilo', '120'),
+                  _buildInfoRow('Pozisyon', 'Orta Saha'),
+                  _buildInfoRow('Güçlü Ayak', 'Sağ'),
+                  _buildInfoRow('İletişim', '+90 555 555 55 55'),
+                  _buildInfoRow('Şehir', 'Iğdır'),
+                  _buildInfoRow('Tuttuğu Takım', 'Beşiktaş'),
+                ],
               ),
-              //   placeholder: localizations.demoCupertinoTextFieldPIN,
             ),
+            SizedBox(height: 20),
+            Image.network(
+              'https://galeri14.uludagsozluk.com/805/en-iyi-hali-saha-taktikleri_1643717.jpg',
+              height: 300,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 20),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label + ':',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(width: 10),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+        ],
       ),
     );
   }
