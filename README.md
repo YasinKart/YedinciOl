@@ -1,0 +1,2 @@
+# YedinciOl
+ BitirmeProjesi
