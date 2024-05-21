@@ -1,4 +1,5 @@
 import 'package:bitirmeprojesi/main_page.dart';
+import 'package:bitirmeprojesi/teams/team_b_join.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
@@ -218,18 +219,33 @@ class _TeamBPageState extends State<TeamBPage> {
       backgroundColor: Colors.grey,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: double.infinity,
-          child: FirebaseAnimatedList(
-            query: dbRef,
-            itemBuilder: (BuildContext context, DataSnapshot snapshot,
-                Animation<double> animation, int index) {
-              Map teamb = snapshot.value as Map;
-              teamb['ID'] = snapshot.key;
+        child: Column(
+          children: [
+            Expanded(
+              child: FirebaseAnimatedList(
+                query: dbRef,
+                itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                    Animation<double> animation, int index) {
+                  Map teamb = snapshot.value as Map;
+                  teamb['ID'] = snapshot.key;
 
-              return listItem(teamb: teamb);
-            },
-          ),
+                  return listItem(teamb: teamb);
+                },
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TeamBJoinPage(),
+                  ),
+                );
+              },
+              child: const Text('Takıma Katıl'),
+            ),
+          ],
         ),
       ),
     );
