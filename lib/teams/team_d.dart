@@ -1,4 +1,5 @@
 import 'package:bitirmeprojesi/main_page.dart';
+import 'package:bitirmeprojesi/profile_team_page.dart';
 import 'package:bitirmeprojesi/teams/team_d_join.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -12,10 +13,24 @@ class TeamDPage extends StatefulWidget {
 }
 
 class _TeamDPageState extends State<TeamDPage> {
-
   Query dbRef = FirebaseDatabase.instance.ref().child('teamd');
   DatabaseReference reference = FirebaseDatabase.instance.ref().child('teamd');
   final TextEditingController _searchController = TextEditingController();
+  int teamCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getTeamCount();
+  }
+
+  Future<void> getTeamCount() async {
+    DataSnapshot snapshot = await reference.get();
+    setState(() {
+      teamCount = snapshot.children.length;
+    });
+  }
+
   Widget listItem({required Map teamd}) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -108,7 +123,7 @@ class _TeamDPageState extends State<TeamDPage> {
                     color: Colors.black,
                   ),
                   title: Text(
-                    'Maç: '+teamd['MAÇ'],
+                    'Maç: ' + teamd['MAÇ'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -127,7 +142,7 @@ class _TeamDPageState extends State<TeamDPage> {
                     color: Colors.black,
                   ),
                   title: Text(
-                    'Gol: '+teamd['GOL'],
+                    'Gol: ' + teamd['GOL'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -165,7 +180,7 @@ class _TeamDPageState extends State<TeamDPage> {
                     color: Colors.yellow,
                   ),
                   title: Text(
-                    'Sarı Kart: '+teamd['SARI'],
+                    'Sarı Kart: ' + teamd['SARI'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -184,7 +199,7 @@ class _TeamDPageState extends State<TeamDPage> {
                     color: Colors.red,
                   ),
                   title: Text(
-                    'Kırmızı Kart: '+teamd['KIRMIZI'],
+                    'Kırmızı Kart: ' + teamd['KIRMIZI'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -203,7 +218,7 @@ class _TeamDPageState extends State<TeamDPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.blue.shade800,
-        title: Text('D Takımı'),
+        title: const Text('D Takımı'),
         leading: BackButton(
           onPressed: () {
             Navigator.pop(context);
@@ -221,6 +236,15 @@ class _TeamDPageState extends State<TeamDPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            Text(
+              'Takımda $teamCount Kişi Var',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 10),
             Expanded(
               child: FirebaseAnimatedList(
                 query: dbRef,

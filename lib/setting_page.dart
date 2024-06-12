@@ -60,17 +60,22 @@ class SettingPage extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Container(
-                                decoration: BoxDecoration(),
+                                constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.8),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        'deneme@gmail.com olarak giriş yapıldı.',
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
+                                      Flexible(
+                                        child: Text(
+                                          '${user.email!} olarak giriş yapıldı',
+                                          style: const TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
                                         ),
                                       ),
                                     ],

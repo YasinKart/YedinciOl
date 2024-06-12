@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_inappwebview_platform_interface/flutter_inappwebview_platform_interface.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
           Scaffold(
             appBar: AppBar(title: Text('Web Görünümü')),
             body: InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse(url)),
+              initialUrlRequest: URLRequest(url: WebUri(url)),
               initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
                   javaScriptEnabled: true,
@@ -154,7 +155,7 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 20),
 
-           /* Center(
+            /* Center(
               child:Text(
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0,),
                   "Süper Kupa Ertelendi"),

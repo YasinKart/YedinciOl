@@ -13,10 +13,24 @@ class TeamAPage extends StatefulWidget {
 }
 
 class _TeamAPageState extends State<TeamAPage> {
-
   Query dbRef = FirebaseDatabase.instance.ref().child('teama');
   DatabaseReference reference = FirebaseDatabase.instance.ref().child('teama');
   final TextEditingController _searchController = TextEditingController();
+  int teamCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getTeamCount();
+  }
+
+  Future<void> getTeamCount() async {
+    DataSnapshot snapshot = await reference.get();
+    setState(() {
+      teamCount = snapshot.children.length;
+    });
+  }
+
   Widget listItem({required Map teama}) {
     return Padding(
       padding: const EdgeInsets.all(5.0),
@@ -109,7 +123,7 @@ class _TeamAPageState extends State<TeamAPage> {
                     color: Colors.black,
                   ),
                   title: Text(
-                    'Maç: '+teama['MAÇ'],
+                    'Maç: ' + teama['MAÇ'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -128,7 +142,7 @@ class _TeamAPageState extends State<TeamAPage> {
                     color: Colors.black,
                   ),
                   title: Text(
-                    'Gol: '+teama['GOL'],
+                    'Gol: ' + teama['GOL'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -166,7 +180,7 @@ class _TeamAPageState extends State<TeamAPage> {
                     color: Colors.yellow,
                   ),
                   title: Text(
-                    'Sarı Kart: '+teama['SARI'],
+                    'Sarı Kart: ' + teama['SARI'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -185,7 +199,7 @@ class _TeamAPageState extends State<TeamAPage> {
                     color: Colors.red,
                   ),
                   title: Text(
-                    'Kırmızı Kart: '+teama['KIRMIZI'],
+                    'Kırmızı Kart: ' + teama['KIRMIZI'],
                     style: const TextStyle(color: Colors.black),
                   ),
                 ),
@@ -204,7 +218,7 @@ class _TeamAPageState extends State<TeamAPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.blue.shade800,
-        title: Text('A Takımı'),
+        title: const Text('A Takımı'),
         leading: BackButton(
           onPressed: () {
             Navigator.pop(context);
@@ -222,6 +236,15 @@ class _TeamAPageState extends State<TeamAPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+            Text(
+              'Takımda $teamCount Kişi Var',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 10),
             Expanded(
               child: FirebaseAnimatedList(
                 query: dbRef,

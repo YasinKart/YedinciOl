@@ -1,10 +1,9 @@
 import 'dart:ffi';
+import 'package:bitirmeprojesi/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/src/painting/text_style.dart';
-
-import 'main_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -14,14 +13,22 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  /* Query dbRef = FirebaseDatabase.instance.ref().child('users');
-  DatabaseReference reference = FirebaseDatabase.instance.ref().child('users');*/
-
+  Map<String, String> profileData = {
+    'name': '',
+    'surname': '',
+    'age': '',
+    'height': '',
+    'weight': '',
+    'position': '',
+    'foot': '',
+    'contact': '',
+    'city': '',
+    'team': '',
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -37,16 +44,16 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  _buildInfoRow('Ad', 'Hakan'),
-                  _buildInfoRow('Soyad', 'Çaçur'),
-                  _buildInfoRow('Yaş', '35'),
-                  _buildInfoRow('Boy', '195'),
-                  _buildInfoRow('Kilo', '120'),
-                  _buildInfoRow('Pozisyon', 'Orta Saha'),
-                  _buildInfoRow('Güçlü Ayak', 'Sağ'),
-                  _buildInfoRow('İletişim', '+90 555 555 55 55'),
-                  _buildInfoRow('Şehir', 'Iğdır'),
-                  _buildInfoRow('Tuttuğu Takım', 'Beşiktaş'),
+                  _buildInfoRow('Ad', profileData['name']!),
+                  _buildInfoRow('Soyad', profileData['surname']!),
+                  _buildInfoRow('Yaş', profileData['age']!),
+                  _buildInfoRow('Boy', profileData['height']!),
+                  _buildInfoRow('Kilo', profileData['weight']!),
+                  _buildInfoRow('Pozisyon', profileData['position']!),
+                  _buildInfoRow('Güçlü Ayak', profileData['foot']!),
+                  _buildInfoRow('İletişim', profileData['contact']!),
+                  _buildInfoRow('Şehir', profileData['city']!),
+                  _buildInfoRow('Tuttuğu Takım', profileData['team']!),
                 ],
               ),
             ),
@@ -57,6 +64,30 @@ class _ProfilePageState extends State<ProfilePage> {
               fit: BoxFit.cover,
             ),
             SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => UpdateProfileScreen(
+                      profileData: profileData,
+                      onUpdate: (updatedProfileData) {
+                        setState(() {
+                          profileData = updatedProfileData;
+                        });
+                      },
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue[800], // Buton arka plan rengini mavi yapar
+                foregroundColor: Colors.black, // Buton yazı rengini beyaz yapar
+              ),
+              child: Text('Profili Düzenle'),
+            )
+
+
           ],
         ),
       ),

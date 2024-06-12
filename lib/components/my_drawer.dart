@@ -5,9 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
-   const MyDrawer({super.key});
+  const MyDrawer({super.key});
 
-   get user => FirebaseAuth.instance.currentUser!;
+  get user => FirebaseAuth.instance.currentUser!;
 
   // method to log user out
   void logUserOut(BuildContext context) {
@@ -55,7 +55,7 @@ class MyDrawer extends StatelessWidget {
               ),
               onTap: () {},
               title: Text(
-                'deneme@gmail.com olarak giriş yapıldı',
+                user.email!+' olarak giriş yapıldı',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 15,
